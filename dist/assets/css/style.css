@@ -1818,3 +1818,7 @@ textarea:focus {
     animation: none !important;
   }
 }
+
+button:disabled {
+	opacity: 0.5;
+}

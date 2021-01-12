@@ -4,6 +4,7 @@ const closeModal = () => {
 	allModal.forEach(item => {
 		item.style.display = 'none';
 		document.body.classList.remove('modal-open');
+		document.body.style.marginRight = '';
 	})
 
 }

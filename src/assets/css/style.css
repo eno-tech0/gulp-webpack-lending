@@ -18,6 +18,22 @@ body {
   color: red;
 }
 
+.faded {
+	animation-name: faded;
+	animation-duration: 1.5s;
+}
+
+@keyframes faded {
+	from {
+		opacity: 0.1;
+		transform: translateY(50px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0)
+	}
+}
+
 a:hover {
   text-decoration: none;
 }
@@ -1819,6 +1835,16 @@ textarea:focus {
   }
 }
 
-button:disabled {
-	opacity: 0.5;
+.bigImg {
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.bigImg img {
+	width: 50%;
+}
+
+.imgFlex {
+	display: flex;
 }

@@ -5,6 +5,7 @@ const tabs = (headerSelector, tabsSelector, contentsSelector, activeClass, displ
 		contents = document.querySelectorAll(contentsSelector);
 
 	tabs.forEach(tab => tab.style.cursor = 'pointer');
+	contents.forEach(content => content.classList.add('faded'));
 
 	header.addEventListener('click', (e) => {
 

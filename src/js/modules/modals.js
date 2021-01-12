@@ -1,6 +1,7 @@
 import closeModal from './closeModal';
 
 const modals = (state) => {
+	const scrollWidth = getScrollWidth();
 
 	function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
 
@@ -34,6 +35,8 @@ const modals = (state) => {
 		closeModal();
 		modal.style.display = 'block';
 		document.body.classList.add('modal-open');
+		document.body.style.marginRight = `${scrollWidth}px`;
+		console.log(scrollWidth);
 	}
 
 	function checkFillIputs(modal) {
@@ -43,6 +46,22 @@ const modals = (state) => {
 		modal.after(statusMessage);
 		throw Error('Не заполнены все поля');
 	}
+
+	function getScrollWidth() {
+		const div = document.createElement('div');
+
+		div.style.width = '50px';
+		div.style.height = '50px';
+		div.style.overflowY = 'scroll';
+		div.style.visibility = 'hidden';
+
+		document.body.append(div);
+		const scrollWidth = div.offsetWidth - div.clientWidth;
+		div.remove();
+
+		return scrollWidth;
+	}
+
 
 	bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_close');
 	bindModal('.phone_link', '.popup', '.popup_close');

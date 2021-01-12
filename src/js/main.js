@@ -4,6 +4,7 @@ import tabs from './modules/tabs';
 import forms from './modules/forms';
 import changeModalState from './modules/changeModalState';
 import timer from './modules/timer';
+import imagesAsModals from './modules/imagesAsModals';
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -21,5 +22,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	forms(modalState);
 	modals(modalState);
 	timer('.container1', deadline);
+	imagesAsModals('.works');
 
 });

@@ -17799,6 +17799,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
 /* harmony import */ var _modules_changeModalState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/changeModalState */ "./src/js/modules/changeModalState.js");
 /* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/timer */ "./src/js/modules/timer.js");
+/* harmony import */ var _modules_imagesAsModals__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/imagesAsModals */ "./src/js/modules/imagesAsModals.js");
+
 
 
 
@@ -17818,6 +17820,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["default"])(modalState);
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])(modalState);
   Object(_modules_timer__WEBPACK_IMPORTED_MODULE_5__["default"])('.container1', deadline);
+  Object(_modules_imagesAsModals__WEBPACK_IMPORTED_MODULE_6__["default"])('.works');
 });
 
 /***/ }),
@@ -17931,6 +17934,7 @@ var closeModal = function closeModal() {
   allModal.forEach(function (item) {
     item.style.display = 'none';
     document.body.classList.remove('modal-open');
+    document.body.style.marginRight = '';
   });
 };
 
@@ -18058,6 +18062,46 @@ var forms = function forms(state) {
 
 /***/ }),
 
+/***/ "./src/js/modules/imagesAsModals.js":
+/*!******************************************!*\
+  !*** ./src/js/modules/imagesAsModals.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var imagesAsModals = function imagesAsModals(selector) {
+  var imgPopup = document.createElement('div'),
+      workSection = document.querySelector(selector),
+      bigImg = document.createElement('img');
+  imgPopup.classList.add('bigImg', 'popup');
+  workSection.addEventListener('click', function (e) {
+    e.preventDefault();
+    var target = e.target;
+    workSection.append(imgPopup);
+    imgPopup.append(bigImg);
+
+    if (target && target.classList.contains('preview')) {
+      imgPopup.classList.add('imgFlex');
+      document.body.classList.add('modal-open');
+      var path = target.parentElement.getAttribute('href');
+      bigImg.setAttribute('src', path);
+    }
+
+    if (target && target.matches('div.popup')) {
+      imgPopup.classList.remove('imgFlex');
+      document.body.classList.remove('modal-open');
+      bigImg.remove();
+      imgPopup.remove();
+    }
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (imagesAsModals);
+
+/***/ }),
+
 /***/ "./src/js/modules/modals.js":
 /*!**********************************!*\
   !*** ./src/js/modules/modals.js ***!
@@ -18074,6 +18118,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var modals = function modals(state) {
+  var scrollWidth = getScrollWidth();
+
   function bindModal(triggerSelector, modalSelector, closeSelector) {
     var closeClickOverlay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
     var trigger = document.querySelectorAll(triggerSelector),
@@ -18111,6 +18157,8 @@ var modals = function modals(state) {
     Object(_closeModal__WEBPACK_IMPORTED_MODULE_1__["default"])();
     modal.style.display = 'block';
     document.body.classList.add('modal-open');
+    document.body.style.marginRight = "".concat(scrollWidth, "px");
+    console.log(scrollWidth);
   }
 
   function checkFillIputs(modal) {
@@ -18119,6 +18167,18 @@ var modals = function modals(state) {
     statusMessage.textContent = 'Заполните все данные';
     modal.after(statusMessage);
     throw Error('Не заполнены все поля');
+  }
+
+  function getScrollWidth() {
+    var div = document.createElement('div');
+    div.style.width = '50px';
+    div.style.height = '50px';
+    div.style.overflowY = 'scroll';
+    div.style.visibility = 'hidden';
+    document.body.append(div);
+    var scrollWidth = div.offsetWidth - div.clientWidth;
+    div.remove();
+    return scrollWidth;
   }
 
   bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_close');
@@ -18153,6 +18213,9 @@ var tabs = function tabs(headerSelector, tabsSelector, contentsSelector, activeC
       contents = document.querySelectorAll(contentsSelector);
   tabs.forEach(function (tab) {
     return tab.style.cursor = 'pointer';
+  });
+  contents.forEach(function (content) {
+    return content.classList.add('faded');
   });
   header.addEventListener('click', function (e) {
     tabs.forEach(function (item, i) {
